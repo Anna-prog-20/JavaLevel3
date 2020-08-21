@@ -44,17 +44,17 @@ public class Main {
     static void putBox(){
         Box<Apple> appleBox=new Box<>();
         for(int i=0;i<5;i++)
-            appleBox.addFruit(new Apple());
+            appleBox.addFruit(new Apple(1.0f));
         System.out.println("Вес 1ой коробки ["+appleBox.count()+"шт.] с яблоками "+appleBox.getWeight());
 
         Box<Apple> appleBox1=new Box<>();
         for(int i=0;i<10;i++)
-            appleBox1.addFruit(new Apple());
+            appleBox1.addFruit(new Apple(1.0f));
         System.out.println("Вес 2ой коробки ["+appleBox1.count()+"шт.] с яблоками "+appleBox1.getWeight());
 
         Box<Orange> orangeBox=new Box<>();
         for(int i=0;i<6;i++)
-            orangeBox.addFruit(new Orange());
+            orangeBox.addFruit(new Orange(1.5f));
         System.out.println("Вес коробки ["+orangeBox.count()+"шт.] с апельсинами "+orangeBox.getWeight());
 
         System.out.println("Сравнение 1ой коробки яблок с коробкой апельсин "+appleBox.compare(orangeBox));
