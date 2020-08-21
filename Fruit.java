@@ -6,4 +6,9 @@ public class Fruit {
     public double getWeight() {
         return weight;
     }
+
+
+    public Fruit(double weight) {
+        this.weight = weight;
+    }
 }
