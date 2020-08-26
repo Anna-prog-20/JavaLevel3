@@ -24,20 +24,17 @@ public class ClientHandler{
             this.out = new DataOutputStream(socket.getOutputStream());
             this.name = "";
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            if (timeIsOver==false) {
-                                doAuth();
-                                readMessage();
-                            }
-                        } catch (IOException e) {
-                            //e.printStackTrace();
+                new Thread(() -> {
+                    try {
+                        if (!timeIsOver) {
+                            doAuth();
+                            readMessage();
                         }
-                        finally {
-                            closeConnection();
-                        }
+                    } catch (IOException e) {
+                        //e.printStackTrace();
+                    }
+                    finally {
+                        closeConnection();
                     }
                 }).start();
 
@@ -54,17 +51,14 @@ public class ClientHandler{
 
     public void doAuth() throws IOException {
         a=System.currentTimeMillis()/1000L;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!timeIsOver)
-                if (System.currentTimeMillis()/1000L-a>120) {
-                    timeIsOver = true;
-                }
+        new Thread(() -> {
+            while (!timeIsOver)
+            if (System.currentTimeMillis()/1000L-a>120) {
+                timeIsOver = true;
             }
         }).start();
 
-        String str="";
+        String str;
         while (!timeIsOver) {
             str = in.readUTF();
             if (str.startsWith("/auth")) {
