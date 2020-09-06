@@ -3,6 +3,7 @@ package com;
 import java.util.Arrays;
 
 public class WorkingArrays {
+
     public int[] getNewArray(int[] arrayInt){
         int[] newArray;
         int j=-1;
@@ -17,7 +18,7 @@ public class WorkingArrays {
                 newArray[i-j]=arrayInt[i];
             }
             return newArray;
-        }else{
+        }else {
             throw new NoNumber("В данном массиве не встречается цифра 4");
         }
     }
