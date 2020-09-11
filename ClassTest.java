@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.testng.annotations.AfterSuite;
 
 public class ClassTest {
-    @PriorityTest
     private int priority;
     private String nameTest;
 
@@ -13,9 +12,18 @@ public class ClassTest {
         this.nameTest = nameTest;
     }
 
+    public ClassTest() {
+    }
+
+    @ParametersTest(priority = 5,nameTest = "******* Тест №1 *******")
+    public ClassTest ClassTest(){
+        return new ClassTest(priority,nameTest);
+    }
+
     public int getPriority() {
         return priority;
     }
+
     public void print(){
         System.out.println(nameTest);
     }
