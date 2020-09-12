@@ -1,9 +1,7 @@
 package com.company;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.testng.annotations.AfterSuite;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -22,48 +20,52 @@ public class ExecutionTest {
 
         for (int i=0;i<tests.size();i++) {
             tests.get(i).print();
-            start(tests.get(i).getClass());
+            start(tests.get(i).getClass(),tests.get(i));
         }
 
         System.out.println("--------------");
         for (int i=0;i<tests.size();i++) {
             tests.get(i).print();
-            start(tests.get(i).getClass().getName());
+            start(tests.get(i).getClass().getName(),tests.get(i));
         }
     }
 
-    static void start(Class aClass){
+    static void start(Class aClass,ClassTest classTest){
         try {
-            executionMethod(aClass.getMethod("beforeEach"),aClass,BeforeEach.class);
+            executionMethod(aClass.getMethod("beforeSuite"),aClass,BeforeSuite.class,classTest);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
         for (Method method : aClass.getMethods()) {
-            executionMethod(method,aClass,Test.class);
+            executionMethod(method,aClass,Test.class,classTest);
         }
         try {
-            executionMethod(aClass.getMethod("afterSuite"),aClass,AfterSuite.class);
+            executionMethod(aClass.getMethod("afterSuite"),aClass, AfterSuite.class,classTest);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
     }
 
-    static void start(String nameClass){
+    static void start(String nameClass,ClassTest classTest){
         if(nameClass.getClass()!=null){
             try {
-                start(Class.forName(nameClass));
+                start(Class.forName(nameClass),classTest);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
     }
-    private static void executionMethod(Method method,Class aClass,Class annotation){
+    private static void executionMethod(Method method,Class aClass,Class annotation,ClassTest classTest){
         if (method.isAnnotationPresent(annotation))
         {
             try {
-                aClass.getMethod(method.getName());
-                System.out.println("Запустился "+method.getName());
+                aClass.getMethod(method.getName()).invoke(classTest);
+                //System.out.println("Запустился "+method.getName());
             } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
         }
